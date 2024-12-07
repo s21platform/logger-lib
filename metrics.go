@@ -2,6 +2,7 @@ package logger_lib
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -79,4 +80,20 @@ func (l *Logger) sendToLoki(level string, message string) {
 	if resp.StatusCode != http.StatusNoContent {
 		log.Println("failed to send loki. StatusCode:", resp.StatusCode)
 	}
+}
+
+func FromContext(ctx context.Context, key interface{}) *Logger {
+	value := ctx.Value(key)
+	if value == nil {
+		// Обрабатываем ситуацию, когда значение отсутствует в контексте
+		return nil
+	}
+
+	logger, ok := value.(*Logger)
+	if !ok {
+		// Обрабатываем ситуацию, когда значение есть, но неверного типа
+		return nil
+	}
+
+	return logger
 }
