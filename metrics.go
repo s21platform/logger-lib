@@ -27,7 +27,7 @@ func New(host, port, service, env string) *Logger {
 }
 
 func (l *Logger) AddFuncName(name string) {
-	l.funcName = name
+	l.funcName = l.service + "_" + name
 }
 
 func (l *Logger) Info(msg string) {
