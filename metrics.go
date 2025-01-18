@@ -82,7 +82,7 @@ func (l *Logger) sendToLoki(level string, message string) {
 	}
 }
 
-func FromContext(ctx context.Context, key interface{}) *Logger {
+func FromContext(ctx context.Context, key interface{}) LoggerInterface {
 	value := ctx.Value(key)
 	if value == nil {
 		// Обрабатываем ситуацию, когда значение отсутствует в контексте
