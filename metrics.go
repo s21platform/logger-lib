@@ -89,7 +89,7 @@ func FromContext(ctx context.Context, key interface{}) LoggerInterface {
 		return nil
 	}
 
-	logger, ok := value.(*Logger)
+	logger, ok := value.(LoggerInterface)
 	if !ok {
 		// Обрабатываем ситуацию, когда значение есть, но неверного типа
 		return nil
