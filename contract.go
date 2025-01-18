@@ -1,4 +1,4 @@
-//go:generate mockgen -destination=mock_contract_test.go -package=${GOPACKAGE} -source=contract.go
+//go:generate mockgen -destination=mock_contract.go -package=${GOPACKAGE} -source=contract.go
 
 package logger_lib
 
