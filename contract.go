@@ -2,9 +2,11 @@
 
 package logger_lib
 
+import "context"
+
 type LoggerInterface interface {
-	AddFuncName(name string)
-	Info(msg string)
-	Error(msg string)
-	Warn(msg string)
+	WithField(ctx context.Context, key string, value any) context.Context
+	Info(ctx context.Context, msg string)
+	Error(ctx context.Context, msg string)
+	Warn(ctx context.Context, msg string)
 }
