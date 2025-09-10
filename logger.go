@@ -15,7 +15,7 @@ type loggerKeyType string
 const loggerKey = loggerKeyType("logger")
 
 type Logger struct {
-	url      string
+	url    string
 	labels map[string]string
 	fields map[string]any
 }
@@ -23,9 +23,9 @@ type Logger struct {
 func New(host, port, service, env string) *Logger {
 	url := fmt.Sprintf("http://%s:%s/loki/api/v1/push", host, port)
 	logger := &Logger{
-		url:     url,
-		labels:  make(map[string]string),
-		fields:  make(map[string]any),
+		url:    url,
+		labels: make(map[string]string),
+		fields: make(map[string]any),
 	}
 
 	// Set default labels
@@ -61,9 +61,9 @@ func (l *Logger) sendToLoki(level string, message string) {
 		Streams: []StreamEntry{
 			{
 				Stream: Stream{
-					Level:        level,
-					Environment:  l.labels["env"],
-					Service:      l.labels["service"],
+					Level:       level,
+					Environment: l.labels["env"],
+					Service:     l.labels["service"],
 				},
 				Values: [][]string{
 					{timestamp, string(messageJson)},
@@ -121,6 +121,14 @@ func WithField(ctx context.Context, key string, value any) context.Context {
 	}
 	logger.withField(key, value)
 	return context.WithValue(ctx, loggerKey, logger)
+}
+
+func WithError(ctx context.Context, err error) context.Context {
+	return WithField(ctx, "error", err.Error())
+}
+
+func WithUserUuid(ctx context.Context, userUuid string) context.Context {
+	return WithField(ctx, "user_uuid", userUuid)
 }
 
 // Info logs an info message.
